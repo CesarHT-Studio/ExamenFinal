@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TechNova</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+            body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            }
+            /* Define el contenedor principal con un fondo gris claro y un ancho del 100% */
+            .main-container {
+                background-color: #E8E7E7;
+                width: 100%;
+                overflow: hidden; /* Oculta cualquier contenido desbordado */
+            }
+
+            /* Alinea el texto al centro en el contenedor del encabezado y la navegación */
+            .header-container,
+            .nav-container {
+                text-align: center;
+            }
+
+            /* Establece el fondo y el color del texto del contenedor del encabezado */
+            .header-container {
+                background-color: #E8E7E7;
+                color: #000;
+            }
+
+            /* Elimina el margen del encabezado h1 y añade un relleno del 1% */
+            header h1 {
+                margin: 0;
+                padding: 1%;
+            }
+
+            /* Configura el fondo y el relleno del elemento de navegación */
+            .nav-container {
+                background-color: #333;
+                padding: 1%;
+                display: flex;
+                justify-content: space-between; /* Alinea los elementos al principio y al final */
+                align-items: center;
+            }
+
+            nav {
+                display: flex;
+                gap: 20px; /* Espacio entre los enlaces de navegación */
+                align-items: center;
+            }
+
+            /* Modificamos los enlaces de navegación con relleno, sin subrayado y color blanco */
+            nav a {
+                padding: 2%;
+                text-decoration: none;
+                color: #fff;
+            }
+            .cart-button {
+                display: flex;
+                align-items: center;
+                color: #fff;
+                background: none;
+                border: none;
+                font-size: 1.2em;
+                cursor: pointer;
+            }
+            .cart-button i {
+                margin-right: 5px;
+            }
+            .cart-counter {
+                background-color: #ff0000;
+                color: #fff;
+                border-radius: 50%;
+                padding: 5px 10px;
+                font-size: 1em;
+                margin-left: 5px;
+            }
+
+            .cart-items {
+                position: absolute;
+                top: 60px; /* Ajusta según la altura del nav */
+                right: 20px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                display: none; /* Inicialmente oculto */
+                max-width: 400px;
+                z-index: 1000;
+            }
+
+            .cart-items h4 {
+                margin-top: 0;
+            }
+
+            .cart-items .item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+
+            .cart-items .item button {
+                background-color: #dc3545;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 5px;
+                cursor: pointer;
+                font-size: 0.8em;
+            }
+
+            .cart-items .item button:hover {
+                background-color: #c82333;
+            }
+
+            .cart-items .empty-cart {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .clear-cart-button {
+                background-color: #ffc107;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 1em;
+                display: block;
+                margin: 10px auto;
+            }
+
+            .clear-cart-button:hover {
+                background-color: #e0a800;
+            }
+
+            .close-cart-button {
+                background: none;
+                border: none;
+                color: #333;
+                font-size: 1.5em;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+
+            /* Configura el contenedor de la imagen con un ancho del 100%*/
+            .image-section img {
+                width: 100%;
+            }
+
+            /* Define el contenedor del producto con un ancho del 100% y añade un relleno de 20px */
+            .container-producto {
+                width: 100%;
+                padding: 20px;
+            }
+
+           /* Centra el texto en la sección del producto y añade un relleno inferior de 20px */
+            .seccion-producto {
+                text-align: center;
+                padding-bottom: 20px;
+            }
+
+            /* Elimina el margen del encabezado h2 y establece el tamaño de fuente a 2em */
+            .seccion-producto h2 {
+                margin: 0;
+                font-size: 2em;
+            }
+
+            /* Configura el contenedor de los productos con flexbox, envoltura de línea y centra los elementos */
+            .productos {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;/* Añade un espacio de 20px entre los elementos */
+            }
+
+            /* Estiliza los artículos de productos con fondo blanco, borde, borde redondeado y sombra */
+            .producto-item {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+                width: 300px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Ajusta las imágenes de los artículos para que ocupen el 100% del ancho y mantengan la proporción */
+            .producto-item img {
+                width: 100%;
+                height: auto;
+            }
+
+            /* Establece el margen del encabezado h3 y el tamaño de fuente a 1.2em */
+            .producto-item h3 {
+                margin: 15px 0;
+                font-size: 1.2em;
+            }
+
+            /* Configura el margen y el tamaño de fuente de los párrafos */
+            .producto-item p {
+                margin: 10px 0;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+
+            /* Estiliza el botón con color de fondo, color de texto, borde redondeado y cursor de puntero */
+            .producto-item button {
+                background-color: #28a745;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-size: 1em;
+            }
+
+            /* Cambia el color de fondo del botón al pasar el mouse sobre él */
+            .producto-item button:hover {
+                background-color: #218838;
+            }
+
+            /* Configura el fondo, color de texto y relleno del pie de página */
+            footer {
+                background-color: #333;
+                color: #fff;
+                padding: 20px;
+                text-align: center;/* Centra el texto del pie de página */
+            }
+
+            /* Configura el contenedor de contenido del pie de página con flexbox, centrándolo y añadiendo espacio entre elementos */
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                gap: 40px; /* Añade un espacio de 40px entre los elementos */
+                padding-bottom: 15px;
+            }
+
+            /* Establece el margen inferior del encabezado h2 */
+            .footer-content h2 {
+                margin-top: 0;
+            }
+
+            /* Estiliza los enlaces con color blanco, sin subrayado y tamaño de fuente de 1.5em */
+            .footer-content a {
+                color: #fff;
+                text-decoration: none;
+                font-size: 1.5em;
+                margin: 0 10px; /* Añade un margen horizontal de 10px */
+            }
+
+            /* Cambia el color del enlace al pasar el ratón sobre él */
+            .footer-content a:hover {
+                color: #ddd;
+            }
+
+            /* Configura el margen de los párrafos de información de contacto */
+            .contact-info p {
+                margin: 5px 0;
+            }
+
+            /* Configura el borde superior y el relleno superior de la parte inferior del pie de página */
+            .footer-bottom {
+                border-top: 1px solid #fff; /*Linea igual al hr*/
+                padding-top: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-container">
+
+            <div class="header-container">
+                <header>
+                    <h1>TechNova</h1>
+                </header>
+            </div>
+
+            <div class="nav-container">
+                <nav>
+                    <a href="#">Inicio</a>
+                    <a href="#">Productos</a>
+                    <a href="#">Registro</a>
+                </nav>
+                <button class="cart-button">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-counter">0</span>
+                </button>
+            </div>
+
+            <div class="cart-items">
+                <button class="close-cart-button">X</button>
+                <h4>Productos en el carrito:</h4>
+                <div class="cart-content"></div>
+                <button class="clear-cart-button">Vaciar Carrito</button>
+            </div>
+            
+            <div class="section-container">
+                <section class="image-section">
+                    <img src="imagenes/audifonos.jpg" alt="AudifonosPortada">
+                </section>
+            </div>
+
+            <div class="container-producto">
+                <div class="seccion-producto">
+                    <h2>Productos</h2>
+                </div>
+                <div class="productos">
+                    <section class="producto-item">
+                        <img src="imagenes/audifono1.jpg" alt="Audífonos">
+                        <h3>Audífono Hyperx Cloud Alpha S 7.1 Surround Sound</h3>
+                        <p>S/. 319.90</p>
+                        <button class="add-to-cart-button">Añadir al carrito</button>
+                    </section>
+                    <section class="producto-item">
+                        <img src="imagenes/audifono2.jpg" alt="Audífonos">
+                        <h3>Audífono Hyperx Cloud Alpha PRO Gaming Headset</h3>
+                        <p>S/. 296.90</p>
+                        <button class="add-to-cart-button">Añadir al carrito</button>
+                    </section>
+                    <section class="producto-item">
+                        <img src="imagenes/audifono3.jpg" alt="Audífonos">
+                        <h3>Audífono Hyperx Cloud Core Headset 7.1</h3>
+                        <p>S/. 298.90</p>
+                        <button class="add-to-cart-button">Añadir al carrito</button>
+                    </section>
+                </div>
+            </div>
+
+            <div>
+                <footer>
+                    <div class="footer-content">
+                        <div class="social-media">
+                            <h2>Síguenos</h2>
+                            <a href="#">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-instagram icon instagram"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-twitter icon twitter"></i>
+                            </a>
+                        </div>
+                        <div class="contact-info">
+                            <h2>Contacto</h2>
+                            <p>Teléfono: 01 5043333</p>
+                            <p>Celular: +51 232343546</p>
+                        </div>
+                    </div>
+                    <!--<hr>-->
+                    <div class="footer-bottom">
+                        <p>&copy; 2024 - TODOS LOS DERECHOS RESERVADOS</p> 
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const cartButton = document.querySelector('.cart-button');
+                const cartCounter = document.querySelector('.cart-counter');
+                const cartItems = document.querySelector('.cart-items');
+                const cartContent = document.querySelector('.cart-content');
+                const clearCartButton = document.querySelector('.clear-cart-button');
+                const closeCartButton = document.querySelector('.close-cart-button');
+                const addToCartButtons = document.querySelectorAll('.producto-item button');
+
+                let cart = {};
+
+                function updateCartDisplay() {
+                    cartContent.innerHTML = '';
+                    for (let [productName, quantity] of Object.entries(cart)) {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'item';
+                        itemDiv.innerHTML = `
+                            ${productName} (x${quantity})
+                            <button data-product="${productName}" class="remove-item-button">Eliminar</button>
+                        `;
+                        cartContent.appendChild(itemDiv);
+                    }
+                    if (Object.keys(cart).length === 0) {
+                        cartContent.innerHTML = '<p>El carrito está vacío.</p>';
+                    }
+                    cartCounter.textContent = Object.values(cart).reduce((a, b) => a + b, 0);
+                }
+
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const productName = button.parentElement.querySelector('h3').textContent;
+                        if (!cart[productName]) {
+                            cart[productName] = 0;
+                        }
+                        cart[productName] += 1;
+                        updateCartDisplay();
+                    });
+                });
+
+                cartButton.addEventListener('click', () => {
+                    cartItems.style.display = cartItems.style.display === 'none' ? 'block' : 'none';
+                });
+
+                closeCartButton.addEventListener('click', () => {
+                    cartItems.style.display = 'none';
+                });
+
+                cartContent.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('remove-item-button')) {
+                        const productName = event.target.dataset.product;
+                        delete cart[productName];
+                        updateCartDisplay();
+                    }
+                });
+
+                clearCartButton.addEventListener('click', () => {
+                    cart = {};
+                    updateCartDisplay();
+                });
+            });
+        </script>
+    </body>
+</html>
